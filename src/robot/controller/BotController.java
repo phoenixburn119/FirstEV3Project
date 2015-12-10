@@ -18,7 +18,7 @@ public class BotController
 	
 	public BotController()
 	{
-		this.message = "Adam's Robot arrrg";
+		this.message = "Adam's Robot";
 		this.xPosition = 10;
 		this.yPosition = 10;
 		this.waitTime = 4000;
