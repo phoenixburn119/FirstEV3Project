@@ -10,6 +10,8 @@ public class EV3Bot
 	private int xPosition;
 	private int yPosition;
 	private long waitTime;
+	private int Default;
+	private int Distance;
 	
 	public EV3Bot()
 	{
@@ -17,6 +19,10 @@ public class EV3Bot
 		this.xPosition = 50;
 		this.yPosition = 50;
 		this.waitTime = 4000;
+		Default = 5;
+		Distance = 10;
+		
+		displayMessage();
 	}
 	
 	public void driveRoom()
@@ -41,6 +47,19 @@ public class EV3Bot
 	{
 		Motor.A.setSpeed(900);
 		Motor.B.setSpeed(900);
+		if(Distance > Default)
+		{
+			Delay.msDelay(3000);
+		}
+		else if(Distance < Default)
+		{
+			Motor.A.stop();
+			Motor.B.stop();
+			Delay.msDelay(1000);
+			Motor.B.rotate(360);
+			Motor.A.setSpeed(900);
+			Motor.B.setSpeed(900);
+		}
 		Delay.msDelay(3000);
 		Motor.A.stop();
 		Motor.B.stop();

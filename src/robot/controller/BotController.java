@@ -26,7 +26,7 @@ public class BotController
 		AdamBot = new EV3Bot();
 	}
 	
-	public void strat()
+	public void start()
 	{
 		LCD.drawString(message, xPosition, yPosition);
 		Delay.msDelay(waitTime);
