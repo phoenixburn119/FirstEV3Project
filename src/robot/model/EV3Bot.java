@@ -1,12 +1,15 @@
 package robot.model;
 
+import lejos.hardware.ev3.LocalEV3;
 import lejos.hardware.lcd.LCD;
 import lejos.hardware.motor.Motor;
+import lejos.hardware.sensor.EV3UltrasonicSensor;
 import lejos.robotics.chassis.Chassis;
 import lejos.robotics.chassis.Wheel;
 import lejos.robotics.chassis.WheeledChassis;
 import lejos.robotics.navigation.MovePilot;
 import lejos.utility.Delay;
+
 //import lejos.ev3.UltrasonicSensor;
 
 public class EV3Bot
@@ -15,14 +18,16 @@ public class EV3Bot
 	private int xPosition;
 	private int yPosition;
 	private long waitTime;
+	
 	private int Default;
 	private int Distance;
 	
 	private MovePilot botPilot;
+	private EV3UltrasonicSensor distanceSensor;
+	private float [] ultrasonicSamples;
 	
 	public EV3Bot()
 	{
-		//UltrasonicSensor sonic = new UltrasonicSensor(SensorPort.S4);
 		this.botMessage = "You know where it is";
 		this.xPosition = 50;
 		this.yPosition = 50;
@@ -30,14 +35,55 @@ public class EV3Bot
 		Default = 5;
 		Distance = 10;
 		
+		distanceSensor = new EV3UltrasonicSensor(LocalEV3.get().getPort("S1"));
+		distanceSensor.enable();
 		setupPilot();
-		displayMessage();
 	}
 	
 	public void driveRoom()
 	{
+		ultrasonicSamples = new float [distanceSensor.sampleSize()];
+		distanceSensor.fetchSample(ultrasonicSamples, 0);
 		displayMessage();
-		botPilot.travel(254.12);
+		
+		
+		
+		if(ultrasonicSamples[0] > 10.5)
+		{
+			botPilot.travel(5000);
+			botPilot.rotate(90);
+		}
+		else
+		{
+			botPilot.rotate(-360);
+		}
+		if(ultrasonicSamples[0] > 10.5)
+		{
+			botPilot.travel(5830.2475);
+			botPilot.rotate(-90);
+		}
+		else
+		{
+			botPilot.rotate(360);
+		}		
+		if(ultrasonicSamples[0] > 6.5)
+		{
+			botPilot.travel(1250.25);
+			botPilot.rotate(90);
+		}
+		else
+		{
+			botPilot.rotate(360);
+		}
+		if(ultrasonicSamples[0] > 10.5)
+		{
+			botPilot.travel(500);
+			botPilot.rotate(360);
+		}
+		else
+		{
+			botPilot.rotate(-360);
+		}
 	}
 	
 	public void displayMessage()
@@ -59,7 +105,7 @@ public class EV3Bot
 		botPilot = new MovePilot(baseChassis);
 	}
 	
-	private void Delta()
+	public void Delta()
 	{
 		Motor.A.setSpeed(900);
 		Motor.B.setSpeed(900);
