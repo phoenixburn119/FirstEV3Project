@@ -29,8 +29,8 @@ public class EV3Bot
 	public EV3Bot()
 	{
 		this.botMessage = "You know where it is";
-		this.xPosition = 50;
-		this.yPosition = 50;
+		this.xPosition = 0;
+		this.yPosition = 1;
 		this.waitTime = 4000;
 		Default = 5;
 		Distance = 10;
@@ -48,18 +48,18 @@ public class EV3Bot
 		
 		
 		
-		if(ultrasonicSamples[0] > 10.5)
+		if(ultrasonicSamples[0] > 70)
 		{
-			botPilot.travel(5000);
-			botPilot.rotate(90);
+			botPilot.travel(4700);
+			botPilot.rotate(85);
 		}
-		else
+		else 
 		{
 			botPilot.rotate(-360);
 		}
 		if(ultrasonicSamples[0] > 10.5)
 		{
-			botPilot.travel(5830.2475);
+			botPilot.travel(5730.2475);
 			botPilot.rotate(-90);
 		}
 		else
